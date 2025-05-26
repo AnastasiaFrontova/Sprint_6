@@ -1,6 +1,5 @@
 import allure
 import pytest
-
 from data import FAQ_DATA
 from pages.faq_page import FAQPage
 

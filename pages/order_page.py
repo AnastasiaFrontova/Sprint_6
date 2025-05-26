@@ -3,8 +3,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-
-from data import PAGE_SECTION_TITLES
 from all_locators import OrderFormLocators, RentFormLocators, OrderModalLocators
 from pages.base_page import BasePage
 
@@ -18,6 +16,7 @@ class OrderPage(BasePage):
         return WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located(OrderFormLocators.HEADER_ORDER_NEXT)
         ).text
+
 
     @allure.step('Заполнение поля «Имя» формы данных пользователя.')
     def set_name(self, name):
@@ -47,6 +46,7 @@ class OrderPage(BasePage):
     def next_btn_click(self):
         self.click_element(OrderFormLocators.NEXT_BUTTON)
 
+    @allure.step('Заполнение формы "Для кого самокат".')
     def fill_customer_form(self, name, surname, address, metro, phone):
         self.set_name(name)
         self.set_surname(surname)
@@ -61,14 +61,13 @@ class OrderPage(BasePage):
         self.send_keys(RentFormLocators.DATE, Keys.ENTER)
 
     @allure.step('Заполнение поля «Срок аренды» формы данных аренды.')
-    def set_period(self, period: str):
+    def set_period(self, period):
         self.click_element(RentFormLocators.RENTAL_PERIOD)
-        option_locator = (By.XPATH, RentFormLocators.PERIOD_OPTION_DROPDOWN.format(period))
-        option = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_element_located(option_locator)
-        )
-        option.click()
-
+        period_option = (By.XPATH,
+                        f"//div[contains(@class, 'Dropdown-option') and contains(text(), '{period}')]")
+        WebDriverWait(self.driver, 5).until(
+            EC.element_to_be_clickable(period_option)
+        ).click()
 
     @allure.step('Заполнение поля «Цвет самоката» формы данных аренды.')
     def set_color(self, color):
@@ -85,6 +84,7 @@ class OrderPage(BasePage):
         self.scroll_to_element(RentFormLocators.ORDER_BUTTON)
         self.click_element(RentFormLocators.ORDER_BUTTON)
 
+    @allure.step('Заполнение формы "Про аренду".')
     def fill_rent_form_and_confirm(self, date, period, color, comment):
         self.set_date(date)
         self.set_period(period)
