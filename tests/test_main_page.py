@@ -6,10 +6,9 @@ from pages.main_page import MainPage
 from urls import MAIN_PAGE_URL, ORDER_PAGE_URL, DZEN_REDIRECT_URL
 
 
-
+# Тесты редиректов с главной страницы
 @allure.feature("Main Page")
 class TestMainPageRedirects:
-    """Тесты редиректов с главной страницы."""
 
     @allure.story("Redirect to main page after clicking on the scooter logo")
     def test_scooter_logo_redirect(self, driver):

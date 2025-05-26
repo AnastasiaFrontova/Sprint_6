@@ -21,6 +21,7 @@ class OrderFormLocators:
 
     PHONE = (By.XPATH, ".//input[@placeholder='* Телефон: на него позвонит курьер']")
     NEXT_BUTTON = (By.XPATH, ".//button[text()='Далее']")
+    HEADER_ORDER_NEXT = (By.XPATH, ".//div[contains(@class, 'Order_Header')]")
 
 # Локаторы формы аренды
 class RentFormLocators:

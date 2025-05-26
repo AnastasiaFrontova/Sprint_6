@@ -37,8 +37,8 @@ class BasePage:
     def accept_cookies(self):
         try:
             self.click_element(MainPageLocators.COOKIE_BANNER)
-        except Exception as e:
-            print(f"Ошибка при закрытии баннера куки: {e}")
+        except Exception:
+            pass
 
     @allure.step('Прокрутка экрана до элемента.')
     def scroll_to_element(self, locator):
@@ -70,14 +70,12 @@ class BasePage:
 
     @allure.step('Ожидание, что URL содержит "{url_part}"')
     def wait_for_url_contains(self, url_part, timeout=10):
-        """Ожидает, что текущий URL содержит указанную часть"""
         WebDriverWait(self.driver, timeout).until(
             EC.url_contains(url_part)
         )
 
     @allure.step('Ожидание и переключение на новое окно')
     def wait_and_switch_to_new_window(self, timeout=10):
-        """Ожидает новое окно и переключается на него"""
         WebDriverWait(self.driver, timeout).until(
             lambda d: len(d.window_handles) > 1
         )

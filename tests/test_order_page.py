@@ -7,7 +7,6 @@ from pages.main_page import MainPage
 from urls import MAIN_PAGE_URL, ORDER_PAGE_URL, DZEN_REDIRECT_URL
 
 
-
 class TestOrderPage:
     @allure.title('Создание заказа через разные точки входа')
     @pytest.mark.parametrize(
@@ -22,9 +21,8 @@ class TestOrderPage:
         main_page.open()
         main_page.accept_cookies()
 
-        if entry_point_locator == MainPageLocators.ORDER_BUTTON_FOOTER:
-            main_page.scroll_to_element(entry_point_locator)
-
+        # Добавила скролл к элементу
+        main_page.scroll_to_element(entry_point_locator)
         main_page.wait_and_click(entry_point_locator)
 
         order_page = OrderPage(driver)

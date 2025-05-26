@@ -13,9 +13,7 @@ class OrderPage(BasePage):
     # Получение заголовка формы оформления заказа
     def get_form_title(self):
         # Ищем заголовок относительно кнопки "Далее"
-        return WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located(OrderFormLocators.HEADER_ORDER_NEXT)
-        ).text
+        return self.get_element_text(OrderFormLocators.HEADER_ORDER_NEXT)
 
 
     @allure.step('Заполнение поля «Имя» формы данных пользователя.')
@@ -34,9 +32,7 @@ class OrderPage(BasePage):
     def set_metro(self, metro):
         self.send_keys(OrderFormLocators.METRO_STATION, metro)
         # Ожидаем появления варианта и кликаем
-        WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_element_located(OrderFormLocators.METRO_OPTION)
-        ).click()
+        self.wait_and_click(OrderFormLocators.METRO_OPTION, timeout=5)
 
     @allure.step('Заполнение поля «Телефон» формы данных пользователя.')
     def set_phone(self, phone):
@@ -65,9 +61,7 @@ class OrderPage(BasePage):
         self.click_element(RentFormLocators.RENTAL_PERIOD)
         period_option = (By.XPATH,
                         f"//div[contains(@class, 'Dropdown-option') and contains(text(), '{period}')]")
-        WebDriverWait(self.driver, 5).until(
-            EC.element_to_be_clickable(period_option)
-        ).click()
+        self.wait_and_click(period_option, timeout=5)
 
     @allure.step('Заполнение поля «Цвет самоката» формы данных аренды.')
     def set_color(self, color):
@@ -94,9 +88,7 @@ class OrderPage(BasePage):
 
     @allure.step('Получение заголовка окна подтверждения заказа.')
     def get_confirmation_title(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located(OrderModalLocators.CONFIRM_MODAL)
-        ).text
+        return self.get_element_text(OrderModalLocators.CONFIRM_MODAL)
 
     @allure.step('Нажатие кнопки «Да» окна подтверждения заказа.')
     def yes_btn_click(self):
@@ -104,9 +96,7 @@ class OrderPage(BasePage):
 
     @allure.step('Получение заголовка окна успешного оформления заказа.')
     def get_order_confirmed_title(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located(OrderModalLocators.SUCCESS_MODAL)
-        ).text
+        return self.get_element_text(OrderModalLocators.SUCCESS_MODAL)
 
     def create_order(self, customer, rent_options):
         self.fill_customer_form(**customer)
